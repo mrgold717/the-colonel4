@@ -93,7 +93,7 @@ public class MainViewModel : ViewModelBase, IDisposable
 
         _turboService.TurboFired += (s, e) =>
         {
-            if (IsConnected) _mappingService.ProcessKeyDown(0); // turbo fires via mapping service
+            if (IsConnected) _mappingService.ApplyTurboButton(e.ButtonName, e.IsActive);
         };
 
         _processMonitorService.ActiveProcessChanged += (s, e) => CheckForAutoProfile(e.ProcessName);

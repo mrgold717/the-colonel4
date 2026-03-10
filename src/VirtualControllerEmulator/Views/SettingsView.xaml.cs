@@ -22,7 +22,10 @@ public partial class SettingsView : UserControl
             using var key = Registry.CurrentUser.OpenSubKey(RunKey, false);
             StartWithWindowsCheck.IsChecked = key?.GetValue(AppName) != null;
         }
-        catch { /* ignore registry errors */ }
+        catch (Exception ex)
+        {
+            System.Diagnostics.Debug.WriteLine($"[Settings] Could not read startup registry key: {ex.Message}");
+        }
     }
 
     private void ApplySettings_Click(object sender, RoutedEventArgs e)

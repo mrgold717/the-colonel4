@@ -133,7 +133,7 @@ public class InputMappingService
                     ApplyButtonName(mapping.ControllerButton, false);
                     Notify();
                 }
-            });
+            }, TaskScheduler.Default);
         }
     }
 
@@ -161,6 +161,16 @@ public class InputMappingService
             case VK_DOWN:  _rightDown = pressed; break;
             case VK_LEFT:  _rightLeft = pressed; break;
             case VK_RIGHT: _rightRight = pressed; break;
+        }
+    }
+
+    /// <summary>Directly sets a named controller button state (used by turbo service).</summary>
+    public void ApplyTurboButton(string buttonName, bool pressed)
+    {
+        lock (_lock)
+        {
+            ApplyButtonName(buttonName, pressed);
+            Notify();
         }
     }
 

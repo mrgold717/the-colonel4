@@ -7,6 +7,12 @@ using VirtualControllerEmulator.Models;
 
 namespace VirtualControllerEmulator.Services;
 
+// DS4 axis byte range: 0–255 centered at 127
+internal static class DS4AxisConstants
+{
+    public const double HalfRange = 127.5;
+}
+
 public class VibrationEventArgs : EventArgs
 {
     public byte LargeMotor { get; }
@@ -201,7 +207,7 @@ public class VirtualControllerService : IDisposable
     }
 
     private static byte NormalizeShortToByte(short value)
-        => (byte)((value / 32767.0 * 127.5) + 127.5).Clamp(0, 255);
+        => (byte)((value / 32767.0 * DS4AxisConstants.HalfRange) + DS4AxisConstants.HalfRange).Clamp(0, 255);
 
     private static DualShock4DPadDirection GetDS4DPad(bool up, bool down, bool left, bool right)
     {
